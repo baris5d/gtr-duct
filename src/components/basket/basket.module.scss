@@ -1,0 +1,22 @@
+.button {
+    border: 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    &:hover, &.active {
+        background-color: #147594;
+    }
+    .basket_button {
+        fill: #fff;
+        margin-right: 5px;
+    }
+    span {
+        font-weight: 600;
+        font-size: 14px;
+    }
+}
