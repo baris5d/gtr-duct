@@ -1,0 +1,50 @@
+.paginator {
+    display: flex;
+    margin-top: 32px;
+    .page {
+        text-decoration: none;
+        font-weight: 600;
+        color: #697488;
+        width: 100%;
+        display: block;
+        text-align: center;
+        box-sizing: border-box;
+        max-width: 40px;
+        &.svg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+        }
+        .svg_image {
+            fill: #697488
+        }
+        span {
+            font-size: 14px;
+            display: block;
+            padding: 14px 5px;
+            height: 100%;
+        }
+        &:hover {
+            color: #1EA4CE;
+            .svg_image {
+                fill: #1EA4CE;
+            }
+        }
+
+        &:first-child {
+            text-align: right;
+            margin-right: 30px;
+        }
+        &:last-child {
+            text-align: left;
+            margin-left: 30px;
+        }
+
+        &.active {
+            background-color: #1EA4CE;
+            border-radius: 2px;
+            color: #fff;
+        }
+    }
+}
