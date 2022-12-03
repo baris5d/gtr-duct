@@ -10,7 +10,7 @@
         position: relative;
         &:before{
             content: '';
-            background: #fff;
+            background-color: #fff;
             display: inline-block;
             vertical-align: middle;
             width: 22px;
@@ -21,6 +21,15 @@
             text-align: center;
             border-radius: 2px;
             box-shadow: 0 1px 7px rgba(93,56,192,0.4);
+        }
+    }
+    &:checked + label {
+        &:before {
+            background-color: #1EA4CE;
+            background-image: url('../../../tick_white.svg');
+            background-repeat: no-repeat;
+            background-size: 70%;
+            background-position: center;
         }
     }
 }

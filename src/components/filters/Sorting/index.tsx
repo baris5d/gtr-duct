@@ -16,7 +16,7 @@ export const SortingFilter = () => {
                             <Radio
                                 name="sort"
                                 value="low_to_high"
-                                checked={false}
+                                checked={true}
                                 id="sort1"
                                 label="Price low to High"
                             />

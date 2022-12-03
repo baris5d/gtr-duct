@@ -29,7 +29,7 @@ export const Filter = () => {
                                     name="all"
                                     label="All"
                                     value="1"
-                                    checked={false}
+                                    checked={true}
                                 >
                                     <DisplayText type="span" text="(12)" />
                                 </Check>

@@ -23,4 +23,13 @@
             border-radius: 100%;
         }
     }
+    &:checked + label {
+        &:before {
+            border: 2px solid #1EA4CE;
+            background-image: url('../../../tick.svg');
+            background-repeat: no-repeat;
+            background-size: 70%;
+            background-position: center;
+        }
+    }
 }

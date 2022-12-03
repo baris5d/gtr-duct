@@ -9,7 +9,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ name, value, checked }) => {
     return (
         <>
             <input
-                type="chechbox"
+                type="checkbox"
                 name={name}
                 value={value}
                 checked={checked}
