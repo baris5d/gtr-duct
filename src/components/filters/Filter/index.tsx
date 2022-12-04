@@ -7,8 +7,26 @@ import styles from './filter.module.scss'
 import { DisplayText } from '../../atoms/display-text'
 import { Scrollable } from '../../atoms/scrollable'
 import { TextInput } from '../../atoms/text-input'
+import { useGetCompaniesQuery } from '../../../services/companies'
+import {
+    removeSelections,
+    selectBrand,
+} from '../../../app/redux/brand-filter-slice'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const Filter = () => {
+    const { data, isLoading } = useGetCompaniesQuery()
+    const dispatch = useDispatch()
+
+    const selectedBrand = useSelector((state: any) => state.brand)
+    const checkChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value === 'all') {
+            dispatch(removeSelections())
+        } else {
+            dispatch(selectBrand(e.target.value))
+        }
+        console.log(selectedBrand)
+    }
     return (
         <>
             <Heading type="h4" text="Brands" />
@@ -21,89 +39,42 @@ export const Filter = () => {
                                 type="text"
                                 name="brands"
                                 value=""
+                                checked={false}
+                                onChange={() => {}}
                             />
                         </FormItem>
                         <Scrollable>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={true}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
-                            <FormItem>
-                                <Check
-                                    name="all"
-                                    label="All"
-                                    value="1"
-                                    checked={false}
-                                >
-                                    <DisplayText type="span" text="(12)" />
-                                </Check>
-                            </FormItem>
+                            <Check
+                                key={'ALL'}
+                                name="brands"
+                                value={'all'}
+                                checked={selectedBrand.items.includes('all')}
+                                label={'All'}
+                                onChange={(e) => checkChangeHandler(e)}
+                            >
+                                <DisplayText type="span" text={'(12)'} />
+                            </Check>
+                            {isLoading ? (
+                                <DisplayText type="span" text="Loading..." />
+                            ) : (
+                                data?.map((company) => (
+                                    <Check
+                                        key={company.slug}
+                                        name="brands"
+                                        value={company.slug}
+                                        checked={selectedBrand.items.includes(
+                                            company.slug
+                                        )}
+                                        label={company.name}
+                                        onChange={(e) => checkChangeHandler(e)}
+                                    >
+                                        <DisplayText
+                                            type="span"
+                                            text={'(12)'}
+                                        />
+                                    </Check>
+                                ))
+                            )}
                         </Scrollable>
                     </FormGroup>
                 </Item>
