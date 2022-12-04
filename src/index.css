@@ -28,3 +28,7 @@ h4 {
   font-weight: 600;
   color: #697488;
 }
+
+button {
+  cursor: pointer;
+}
