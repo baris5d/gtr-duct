@@ -13,20 +13,44 @@ import {
     selectBrand,
 } from '../../../app/redux/brand-filter-slice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { Company } from '../../../types'
 
 export const Filter = () => {
     const { data, isLoading } = useGetCompaniesQuery()
+    const [brands, setBrands] = useState<Company[]>([])
+    const [search, setSearch] = useState('')
     const dispatch = useDispatch()
-
     const selectedBrand = useSelector((state: any) => state.brand)
+
     const checkChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value === 'all') {
             dispatch(removeSelections())
         } else {
             dispatch(selectBrand(e.target.value))
         }
-        console.log(selectedBrand)
     }
+
+    const searchChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value)
+        if (e.target.value.length > 0) {
+            setBrands(
+                brands?.filter((brand: any) =>
+                    brand.name.toLowerCase().includes(search.toLowerCase())
+                )
+            )
+        } else {
+            if (data) {
+                setBrands(data)
+            }
+        }
+    }
+    useEffect(() => {
+        if (data) {
+            setBrands(data)
+        }
+    }, [data])
+
     return (
         <>
             <Heading type="h4" text="Brands" />
@@ -34,13 +58,9 @@ export const Filter = () => {
                 <Item className={styles.filter}>
                     <FormGroup>
                         <FormItem>
-                            <TextInput
-                                placeholder="Search"
-                                type="text"
-                                name="brands"
-                                value=""
-                                checked={false}
-                                onChange={() => {}}
+                            <SearchBar
+                                onChange={searchChangeHandler}
+                                value={search}
                             />
                         </FormItem>
                         <Scrollable>
@@ -57,7 +77,7 @@ export const Filter = () => {
                             {isLoading ? (
                                 <DisplayText type="span" text="Loading..." />
                             ) : (
-                                data?.map((company) => (
+                                brands?.map((company) => (
                                     <Check
                                         key={company.slug}
                                         name="brands"
@@ -79,6 +99,25 @@ export const Filter = () => {
                     </FormGroup>
                 </Item>
             </Container>
+        </>
+    )
+}
+
+interface SearchBarProps {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    value: string
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onChange, value }) => {
+    return (
+        <>
+            <TextInput
+                type="text"
+                name="search"
+                placeholder="Search"
+                onChange={onChange}
+                value={value}
+            />
         </>
     )
 }
