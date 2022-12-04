@@ -4,23 +4,34 @@ import { ProductImage } from '../image'
 import { ProductPrice } from '../price'
 import { ProductTitle } from '../title'
 import styles from '../product.module.scss'
+import { addToBasket, BasketItemType } from '../../../app/redux/basket-slice'
+import { useDispatch } from 'react-redux'
 
-interface ProductProps {
-    title: string
-    image: string
-    price: string
-}
+export const Product: React.FC<any> = ({ product }) => {
+    const { name, price } = product
+    const item: BasketItemType = {
+        slug: product.slug,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+    }
 
-export const Product: React.FC<ProductProps> = ({ ...props }) => {
-    const { title, image, price } = props
+    const dispatch = useDispatch()
     return (
         <Item className={styles.product}>
             <div>
-                <ProductImage src={image} alt={title} title={title} />
+                <ProductImage
+                    src={'https://picsum.photos/200'}
+                    alt={name}
+                    title={name}
+                />
                 <ProductPrice price={price} />
-                <ProductTitle title={title} />
+                <ProductTitle title={name} />
             </div>
-            <ProductButton title="Add" />
+            <ProductButton
+                title="Add"
+                onClick={() => dispatch(addToBasket(item))}
+            />
         </Item>
     )
 }

@@ -5,17 +5,24 @@ import { FormItem } from '../form-item'
 interface CheckProps {
     name: string
     value: string
-    checked: boolean
     label: string
     children: React.ReactNode
+    checked?: boolean
+    onChange: (e: any) => void
 }
 
 export const Check: React.FC<CheckProps> = ({ ...props }) => {
-    const { name, value, label, checked, children } = props
+    const { name, checked, value, label, children, onChange } = props
     return (
         <FormItem>
-            <Checkbox name={name} value={value} checked={checked} />
-            <DisplayText type="label" text={label}>
+            <Checkbox
+                checked={checked}
+                name={name}
+                value={value}
+                id={value}
+                onChange={onChange}
+            />
+            <DisplayText type="label" htmlFor={value} text={label}>
                 {children}
             </DisplayText>
         </FormItem>

@@ -20,7 +20,7 @@ export const Radio: React.FC<RadioProps> = ({ ...props }) => {
                 value={value}
                 checked={checked}
                 id={id}
-                onChange={() => onChange}
+                onChange={onChange}
             />
             <DisplayText type="label" text={label} htmlFor={id} />
         </FormItem>

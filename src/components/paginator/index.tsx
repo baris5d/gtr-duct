@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { Container, Item } from '../../layouts/Container'
+import { Container } from '../../layouts/Container'
+import { useGetItemsQuery } from '../../services/items'
 import { DisplayText } from '../atoms/display-text'
 import { Link } from '../atoms/link'
 import { Svg } from '../atoms/svg'
@@ -7,15 +8,18 @@ import styles from './paginator.module.scss'
 
 interface PaginatorProps {
     currentPage: number
-    totalPages: number
     className?: string
 }
 
 export const Paginator: React.FC<PaginatorProps> = ({
     currentPage,
-    totalPages,
     className,
 }) => {
+    const pages = useGetItemsQuery(currentPage).data
+    // const totalPages = pages?.totalCount || 0
+
+    // console.log(pages?.link.split(','))
+    // console.log(Math.ceil(totalPages / 16))
     return (
         <Container className={classNames(className, styles.paginator)} gap={0}>
             <Link href="#" className={classNames(styles.page, styles.svg)}>

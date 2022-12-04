@@ -1,11 +1,21 @@
 import { Container, Item } from '../../layouts/Container'
 import { Button } from '../atoms/button'
 import { DisplayText } from '../atoms/display-text'
-import { Scrollable } from '../atoms/scrollable'
 import { Svg } from '../atoms/svg'
 import styles from './basket.module.scss'
 
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    decrementQuantity,
+    incrementQuantity,
+} from '../../app/redux/basket-slice'
+
 const BasketButton: React.FC = () => {
+    const basketItems: any = useSelector((state: any) => state.basket.items)
+    const totalPrice = basketItems.reduce(
+        (acc: any, item: any) => acc + item.price * item.quantity,
+        0
+    )
     return (
         <>
             <Button className={styles.button}>
@@ -18,13 +28,19 @@ const BasketButton: React.FC = () => {
                     <path d="M5.41174 9.46655H18.5884V21.0081H5.41174V9.46655Z" />
                     <path d="M9.67188 4.65747H14.3412L15.2765 5.62625V9.4666L14.2645 9.46388V5.6242H9.75454V9.46388L8.72388 9.4666V5.6242L9.67188 4.65747Z" />
                 </Svg>
-                <DisplayText type="span" text="₺39,97" />
+                <DisplayText type="span" text={`₺ ${totalPrice.toFixed(2)}`} />
             </Button>
         </>
     )
 }
 
 export const BasketList: React.FC = () => {
+    const basketItems: any = useSelector((state: any) => state.basket.items)
+    const totalPrice = basketItems.reduce(
+        (acc: any, item: any) => acc + item.price * item.quantity,
+        0
+    )
+
     return (
         <>
             <Container
@@ -34,16 +50,24 @@ export const BasketList: React.FC = () => {
                 className={styles.container}
             >
                 <Item className={styles.scrollable}>
-                    <BasketProduct />
-                    <BasketProduct />
-                    <BasketProduct />
+                    {!basketItems || basketItems.length === 0 ? (
+                        <DisplayText type="span" text="Basket is empty" />
+                    ) : (
+                        basketItems.map((item: any) => (
+                            <BasketProduct {...item} key={item.slug} />
+                        ))
+                    )}
+
                     <Container cols={3} gap={0} width={'1fr'}>
                         <Item
                             colSpan={2}
                             start={3}
                             className={styles.total_price}
                         >
-                            <DisplayText type="span" text="₺222,22" />
+                            <DisplayText
+                                type="span"
+                                text={`₺${totalPrice.toFixed(2)}`}
+                            />
                         </Item>
                     </Container>
                 </Item>
@@ -52,23 +76,32 @@ export const BasketList: React.FC = () => {
     )
 }
 
-const BasketProduct: React.FC = () => {
+const BasketProduct: React.FC = (product: any) => {
+    const { name, price } = product
     return (
         <>
             <Container cols={3} width={'1fr'} className={styles.product}>
                 <Item colSpan={2} className={styles.info}>
-                    <DisplayText type="p" text="Example Product" />
-                    <DisplayText type="span" text="₺39,97" />
+                    <DisplayText type="p" text={name} />
+                    <DisplayText type="span" text={`₺ ${price}`} />
                 </Item>
                 <Item colSpan={1}>
-                    <Counter />
+                    <Counter {...product} />
                 </Item>
             </Container>
         </>
     )
 }
 
-const Counter: React.FC = () => {
+const Counter: React.FC<any> = (product: any) => {
+    const { quantity } = product
+    const dispatch = useDispatch()
+    const increment = () => {
+        dispatch(incrementQuantity(product))
+    }
+    const decrement = () => {
+        dispatch(decrementQuantity(product))
+    }
     return (
         <>
             <Container
@@ -78,7 +111,10 @@ const Counter: React.FC = () => {
                 className={styles.counter}
             >
                 <Item>
-                    <Button className={styles.counter_button}>
+                    <Button
+                        className={styles.counter_button}
+                        onClick={decrement}
+                    >
                         <Svg
                             viewBox="0 0 12 12"
                             width={12}
@@ -98,12 +134,15 @@ const Counter: React.FC = () => {
                 <Item className={styles.price_box}>
                     <DisplayText
                         type="span"
-                        text="1"
+                        text={quantity}
                         className={styles.price}
                     />
                 </Item>
                 <Item>
-                    <Button className={styles.counter_button}>
+                    <Button
+                        className={styles.counter_button}
+                        onClick={increment}
+                    >
                         <Svg
                             viewBox="0 0 12 12"
                             width={12}
