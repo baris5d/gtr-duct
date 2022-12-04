@@ -11,3 +11,5 @@ export const companiesApi = createApi({
         }),
     }),
 })
+
+export const { useGetCompaniesQuery } = companiesApi
