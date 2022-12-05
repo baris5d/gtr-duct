@@ -24,6 +24,7 @@ const BrandFilterSlice = createSlice({
             } else {
                 state.items.push(action.payload)
             }
+            console.log('burası', state, action)
         },
         removeSelections(state) {
             state.items = ['all']

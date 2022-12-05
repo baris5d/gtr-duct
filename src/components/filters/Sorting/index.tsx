@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import { selectSort } from '../../../app/redux/sort-slice'
 import { Container, Item } from '../../../layouts/Container'
 import { Heading } from '../../atoms/heading'
@@ -10,11 +12,21 @@ import styles from './filter.module.scss'
 export const SortingFilter = () => {
     const sort = useSelector((state: any) => state.sort)
     const dispatch = useDispatch()
+    const [searchParams] = useSearchParams()
 
     const radioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const radio = e.target.value.split(',')
         dispatch(selectSort({ type: radio[0], order: radio[1] }))
     }
+    useEffect(() => {
+        if (searchParams.get('sort') && searchParams.get('order')) {
+            const sort = searchParams.get('sort')
+            const order = searchParams.get('order')
+            if (sort && order) {
+                dispatch(selectSort({ type: sort, order: order }))
+            }
+        }
+    }, [])
     return (
         <>
             <Heading type="h4" text="Sorting" />

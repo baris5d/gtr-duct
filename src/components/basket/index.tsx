@@ -6,9 +6,11 @@ import styles from './basket.module.scss'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
+    addToBasket,
     decrementQuantity,
     incrementQuantity,
 } from '../../app/redux/basket-slice'
+import { useEffect } from 'react'
 
 const BasketButton: React.FC = () => {
     const basketItems: any = useSelector((state: any) => state.basket.items)
@@ -40,6 +42,20 @@ export const BasketList: React.FC = () => {
         (acc: any, item: any) => acc + item.price * item.quantity,
         0
     )
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (basketItems.length < 1) {
+            const storage = window.localStorage.getItem('basket')
+            if (storage?.length) {
+                JSON.parse(storage).forEach((item: any) => {
+                    dispatch(addToBasket(item))
+                })
+                window.localStorage.removeItem('basket')
+            }
+        }
+    }, [])
 
     return (
         <>

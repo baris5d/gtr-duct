@@ -15,17 +15,36 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Company } from '../../../types'
+import { useSearchParams } from 'react-router-dom'
 
 export const Filter = () => {
-    const { data, isLoading } = useGetCompaniesQuery()
-    const [brands, setBrands] = useState<Company[]>([])
+    const { data, isLoading } = useGetCompaniesQuery() // get companies from api
+    const [brands, setBrands] = useState<Company[]>([]) // createa a state to be able to search in it
     const [search, setSearch] = useState('')
     const dispatch = useDispatch()
-    const selectedBrand = useSelector((state: any) => state.brand)
+    const selectedBrand = useSelector((state: any) => state.brand) // get selected brands from redux store
+    const [searchParams] = useSearchParams()
+
+    useEffect(() => {
+        if (data) {
+            setBrands(data)
+        }
+    }, [data])
+
+    // Set filters from url params
+    useEffect(() => {
+        if (searchParams.get('brand_like')) {
+            const brandFilters = searchParams.get('brand_like')?.split('|') // brand_like=Apple|Samsung
+            brandFilters?.forEach((_) => {
+                dispatch(selectBrand(_))
+            })
+        }
+    }, [])
 
     const checkChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('Handler')
         if (e.target.value === 'all') {
-            dispatch(removeSelections())
+            dispatch(removeSelections()) // Remove all selections if All is selected
         } else {
             dispatch(selectBrand(e.target.value))
         }
@@ -38,18 +57,13 @@ export const Filter = () => {
                 brands?.filter((brand: any) =>
                     brand.name.toLowerCase().includes(search.toLowerCase())
                 )
-            )
+            ) // Filter brands by search input
         } else {
             if (data) {
                 setBrands(data)
             }
         }
     }
-    useEffect(() => {
-        if (data) {
-            setBrands(data)
-        }
-    }, [data])
 
     return (
         <>

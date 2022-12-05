@@ -30,7 +30,7 @@ const BasketSlice = createSlice({
                     slug: action.payload.slug,
                     name: action.payload.name,
                     price: action.payload.price,
-                    quantity: 1,
+                    quantity: action.payload.quantity || 1,
                 })
             }
         },
