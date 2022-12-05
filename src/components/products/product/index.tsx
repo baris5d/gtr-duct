@@ -5,7 +5,8 @@ import { ProductPrice } from '../price'
 import { ProductTitle } from '../title'
 import styles from '../product.module.scss'
 import { addToBasket, BasketItemType } from '../../../app/redux/basket-slice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 export const Product: React.FC<any> = ({ product }) => {
     const { name, price } = product
@@ -17,6 +18,14 @@ export const Product: React.FC<any> = ({ product }) => {
     }
 
     const dispatch = useDispatch()
+    const basketItems: any = useSelector((state: any) => state.basket.items)
+
+    const addToBasketHandler = () => {
+        dispatch(addToBasket(item))
+    }
+    useEffect(() => {
+        window.localStorage.setItem('basket', JSON.stringify(basketItems))
+    }, [basketItems])
     return (
         <Item className={styles.product}>
             <div>
@@ -28,10 +37,7 @@ export const Product: React.FC<any> = ({ product }) => {
                 <ProductPrice price={price} />
                 <ProductTitle title={name} />
             </div>
-            <ProductButton
-                title="Add"
-                onClick={() => dispatch(addToBasket(item))}
-            />
+            <ProductButton title="Add" onClick={addToBasketHandler} />
         </Item>
     )
 }

@@ -7,7 +7,7 @@ import { Paginator } from '../paginator'
 import { Product } from './product'
 import styles from './product.module.scss'
 
-export const Products: React.FC<any> = () => {
+export const Products: React.FC<any> = ({ currentPage }) => {
     const selectedBrands = useSelector((state: any) => state.brand)
 
     const filters = selectedBrands.items
@@ -22,7 +22,7 @@ export const Products: React.FC<any> = () => {
         isError,
         isSuccess,
     } = useGetItemsQuery({
-        page: 1,
+        page: currentPage,
         filter: filters,
         sort: sorting.type,
         order: sorting.order,
@@ -43,7 +43,7 @@ export const Products: React.FC<any> = () => {
                         <Product product={product} key={product.slug} />
                     ))}
             </Container>
-            <Paginator currentPage={10} />
+            <Paginator currentPage={currentPage} data={items} />
         </>
     )
 }

@@ -15,12 +15,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
     },
+    {
+        path: '/:page',
+        element: <Home />,
+    },
 ])
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <RouterProvider router={router} />
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+        <RouterProvider router={router} />
+    </Provider>
 )
