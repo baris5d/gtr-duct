@@ -14,8 +14,9 @@ export const itemsApi = createApi({
                 `items?_page=${page}&_limit=16&manufacturer_like=${filter}&_sort=${sort}&_order=${order}`,
             transformResponse: (apiResponse: Item[], meta) => ({
                 apiResponse,
-                totalCount:
-                    Number(meta?.response?.headers?.get('X-Total-Count')) || 16,
+                totalCount: Number(
+                    meta?.response?.headers?.get('X-Total-Count')
+                ),
                 link: meta?.response?.headers?.get('Link') || '',
             }),
         }),

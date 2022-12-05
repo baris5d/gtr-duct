@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import { Header, Footer } from '../../components/'
 import { BasketList } from '../../components/basket'
 import { Filter } from '../../components/filters/Filter'
@@ -6,6 +7,8 @@ import { Products } from '../../components/products'
 import { Container, Item } from '../../layouts/Container/'
 
 export function Home() {
+    const currentPage = useParams<{ page: string }>().page || 1
+
     return (
         <>
             <Header />
@@ -15,7 +18,7 @@ export function Home() {
                     <Filter />
                 </Item>
                 <Item colSpan={6}>
-                    <Products />
+                    <Products currentPage={currentPage} />
                 </Item>
                 <Item colSpan={3}>
                     <BasketList />
