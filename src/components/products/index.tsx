@@ -8,13 +8,13 @@ import { Product } from './product'
 import styles from './product.module.scss'
 
 export const Products: React.FC<any> = ({ currentPage }) => {
-    const selectedBrands = useSelector((state: any) => state.brand)
+    const selectedBrands = useSelector((state: any) => state.brand) // get selected brands from redux store
 
     const filters = selectedBrands.items
         .filter((_: any) => _ !== 'all')
-        .join('|')
+        .join('|') // create a string of selected brands to be used in api call
 
-    const sorting = useSelector((state: any) => state.sort)
+    const sorting = useSelector((state: any) => state.sort) // get sorting from redux store
 
     const {
         data: items,

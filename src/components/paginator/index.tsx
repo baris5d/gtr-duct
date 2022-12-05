@@ -18,7 +18,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
     data,
     className,
 }) => {
-    const allPages = Math.ceil(data?.totalCount / 16)
+    const allPages = Math.ceil(data?.totalCount / 16) // get total number of pages
 
     const parseLink = data?.link.split(', ').map((_: any) => {
         let [link, rel] = _.split('; ')
@@ -28,7 +28,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
             url,
             rel,
         }
-    })
+    }) // parse the link header to get the next and previous page links
 
     const prevLink = parseLink?.find((_: any) => _.rel === 'prev')
     const nextLink = parseLink?.find((_: any) => _.rel === 'next')
@@ -87,16 +87,21 @@ interface PaginatorProducerProps {
     page: number
 }
 
+/**
+ * This function produces the pagination links based on the current page and the total number of pages
+ * @param param0
+ * @returns
+ */
 const ProducePaginator: React.FC<PaginatorProducerProps> = ({
     currentPage,
     page,
 }) => {
     let totalPages = page
 
-    currentPage = parseInt(currentPage)
-    let pagesToShow = 4
+    currentPage = parseInt(currentPage) // convert the current page to an integer
+    let pagesToShow = 4 // total count of pages right and left side of current page
 
-    let pagesToShowOnEachSide = Math.floor(pagesToShow / 2)
+    let pagesToShowOnEachSide = Math.floor(pagesToShow / 2) // split left and right handside pages to show
 
     let startPage = currentPage - pagesToShowOnEachSide
     let endPage = currentPage + pagesToShowOnEachSide
@@ -131,8 +136,8 @@ const ProducePaginator: React.FC<PaginatorProducerProps> = ({
         pagesToDisplay.unshift(1)
     }
 
-    const selectedBrand = useSelector((state: any) => state.brand)
-    const sort = useSelector((state: any) => state.sort)
+    const selectedBrand = useSelector((state: any) => state.brand) // get the selected brand from the store
+    const sort = useSelector((state: any) => state.sort) // get the selected sort from the store
 
     const getUrlParameters = (selectedBrand: any, sort: any) => {
         let parameters = []
@@ -141,11 +146,11 @@ const ProducePaginator: React.FC<PaginatorProducerProps> = ({
                 `brand_like=${selectedBrand.items
                     .filter((_: any) => _ !== 'all')
                     .join('|')}`
-            )
+            ) // filter out the all brand and join the brands with a pipe
         }
 
         if (sort) {
-            parameters.push(`sort=${sort.type}&order=${sort.order}`)
+            parameters.push(`sort=${sort.type}&order=${sort.order}`) // add the sort and order to the parameters
         }
 
         return `?${parameters.join('&')}`

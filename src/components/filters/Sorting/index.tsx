@@ -10,14 +10,17 @@ import { Radio } from '../../molecules/radio'
 import styles from './filter.module.scss'
 
 export const SortingFilter = () => {
-    const sort = useSelector((state: any) => state.sort)
-    const dispatch = useDispatch()
-    const [searchParams] = useSearchParams()
+    const sort = useSelector((state: any) => state.sort) // Get sort from redux store
+    const dispatch = useDispatch() // Dispatch actions
+    const [searchParams] = useSearchParams() // Get search params from url
 
+    // dispatch sort action when sort changes
     const radioChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const radio = e.target.value.split(',')
         dispatch(selectSort({ type: radio[0], order: radio[1] }))
     }
+
+    // Set sort from url params if exists
     useEffect(() => {
         if (searchParams.get('sort') && searchParams.get('order')) {
             const sort = searchParams.get('sort')

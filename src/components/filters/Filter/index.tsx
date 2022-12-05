@@ -20,10 +20,10 @@ import { useSearchParams } from 'react-router-dom'
 export const Filter = () => {
     const { data, isLoading } = useGetCompaniesQuery() // get companies from api
     const [brands, setBrands] = useState<Company[]>([]) // createa a state to be able to search in it
-    const [search, setSearch] = useState('')
-    const dispatch = useDispatch()
+    const [search, setSearch] = useState('') // keep search value in state
+    const dispatch = useDispatch() // dispatch actions
     const selectedBrand = useSelector((state: any) => state.brand) // get selected brands from redux store
-    const [searchParams] = useSearchParams()
+    const [searchParams] = useSearchParams() // get search params from url
 
     useEffect(() => {
         if (data) {

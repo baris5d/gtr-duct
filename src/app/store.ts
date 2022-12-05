@@ -1,5 +1,4 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
 import { companiesApi } from '../services/companies'
 import { itemsApi } from '../services/items'
 import basketSlice from './redux/basket-slice'
@@ -8,7 +7,6 @@ import sortSlice from './redux/sort-slice'
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
         [companiesApi.reducerPath]: companiesApi.reducer,
         [itemsApi.reducerPath]: itemsApi.reducer,
         basket: basketSlice,
