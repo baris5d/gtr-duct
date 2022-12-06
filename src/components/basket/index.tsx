@@ -12,7 +12,7 @@ import {
 } from '../../app/redux/basket-slice'
 import { useEffect } from 'react'
 
-const BasketButton: React.FC = () => {
+export const BasketButton: React.FC = () => {
     const basketItems: any = useSelector((state: any) => state.basket.items)
     const totalPrice = basketItems.reduce(
         (acc: any, item: any) => acc + item.price * item.quantity,
@@ -92,7 +92,7 @@ export const BasketList: React.FC = () => {
     )
 }
 
-const BasketProduct: React.FC = (product: any) => {
+export const BasketProduct: React.FC = (product: any) => {
     const { name, price } = product
     return (
         <>
@@ -109,7 +109,7 @@ const BasketProduct: React.FC = (product: any) => {
     )
 }
 
-const Counter: React.FC<any> = (product: any) => {
+export const Counter: React.FC<any> = (product: any) => {
     const { quantity } = product
     const dispatch = useDispatch()
     const increment = () => {
