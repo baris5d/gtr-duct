@@ -1,46 +1,30 @@
-# Getting Started with Create React App
+# GTR-Duct
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+Gtr-Duct is an open-source project for Getir Hiring process. It is a simple web application that allows users to search for products and add them to their cart. It is built with React, Redux Toolkit, and Styled Components.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To install the project, you need to have Node.js installed on your machine. Then, you can clone the project and run the following commands:
 
-### `npm start`
+```bash
+npm install
+npm run dev
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## API Description
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Under api folder, there is a file called db.json. This file contains the items and companies data that are used in the project. You can use [json-server](https://github.com/typicode/json-server) to provide a REST API for the data. To do so, you can run the following command:
 
-### `npm test`
+```bash
+json-server --watch api/db.json --port 3001
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you run `npm run dev` command, it will run the json-server concurrently with the React application.
 
-### `npm run build`
+## Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Each component, atom, and molecule is placed under the components folder. All the pages are placed under the pages folder. The redux store is placed under the store folder. All react components developed to be reusable and scalable. So, you can use them to create new pages or components without any dependency.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[MIT](https://choosealicense.com/licenses/mit/)
