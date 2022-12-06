@@ -1,0 +1,13 @@
+{
+    "name": "json-server-deploy",
+    "version": "1.0.0",
+    "description": "JSONServer",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "keywords": [],
+    "dependencies": {
+        "json-server": "^0.17.1"
+    }
+}
